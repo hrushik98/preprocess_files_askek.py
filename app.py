@@ -7,7 +7,7 @@ import os
 import boto3
 
 session = boto3.Session(
-    aws_access_key_id=st.secrets['aws_access_key'],
+    aws_access_key_id=st.secrets['aws_access_key_id'],
     aws_secret_access_key=st.secrets['aws_secret_access_key']
 )
 
@@ -18,12 +18,6 @@ bucket = s3.Bucket(bucket_name)
 
 
 st.title("Upload embeddings to S3")
-st.markdown("""
-            before uploading to S3, make sure you have authorised your AWS account on your local machine.
-            
-            Run `aws configure` on your terminal and enter your access key, secret key, region and output format.
-            
-            """)
 
 api_key = st.text_input('Enter openai api key',type = "password")
 
