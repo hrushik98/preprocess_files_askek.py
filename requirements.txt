@@ -1,0 +1,15 @@
+awscli
+boto3
+langchain 
+langchain_openai 
+langchain_community 
+faiss-cpu
+flask
+flask_cors
+requests
+fastapi
+uvicorn
+openpyxl
+pandas
+pypdf
+streamlit
