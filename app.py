@@ -5,6 +5,7 @@ from langchain.text_splitter import CharacterTextSplitter
 from langchain_community.document_loaders import PyPDFLoader
 import os
 import boto3
+import uuid
 
 session = boto3.Session(
     aws_access_key_id=st.secrets['aws_access_key_id'],
