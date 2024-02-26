@@ -6,7 +6,7 @@ from langchain_community.document_loaders import PyPDFLoader
 import os
 import boto3
 import uuid
-
+import csv
 session = boto3.Session(
     aws_access_key_id=st.secrets['aws_access_key_id'],
     aws_secret_access_key=st.secrets['aws_secret_access_key']
