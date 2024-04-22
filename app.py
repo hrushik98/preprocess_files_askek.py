@@ -23,7 +23,7 @@ bucket.download_file('library.csv', 'library.csv')
 
 st.title("Upload embeddings to S3")
 
-api_key = st.text_input('Enter openai api key',type = "password")
+api_key = ""
 
 file = st.file_uploader("Upload your pdf here", type=["pdf"])
 book_name = st.text_input("Enter the name of the book")
