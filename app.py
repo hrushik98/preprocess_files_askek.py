@@ -23,7 +23,7 @@ bucket.download_file('library.csv', 'library.csv')
 
 st.title("Upload embeddings to S3")
 
-api_key = ""
+api_key = st.secrets['API_KEY']
 
 file = st.file_uploader("Upload your pdf here", type=["pdf"])
 book_name = st.text_input("Enter the name of the book")
