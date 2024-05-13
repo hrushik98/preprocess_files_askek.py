@@ -14,11 +14,8 @@ session = boto3.Session(
 
 s3 = session.resource('s3')
 
-bucket_name = st.secrets['bucket_name']
+bucket_name = "askek"
 bucket = s3.Bucket(bucket_name)
-
-bucket.download_file('library.csv', 'library.csv')
-
 
 
 st.title("Upload embeddings to S3")
@@ -29,11 +26,8 @@ file = st.file_uploader("Upload your pdf here", type=["pdf"])
 book_name = st.text_input("Enter the name of the book")
 
 if st.button("Upload"):
+    bucket.download_file('library.csv', 'library.csv')
     book_name = book_name.replace(" ", "_")
-    uuid_name = uuid.uuid4()
-    with open("library.csv", "a") as f:
-        datai = csv.writer(f)
-        datai.writerow([book_name, uuid_name])
 
     if file is not None:
         file_content = file.read()
@@ -49,7 +43,6 @@ if st.button("Upload"):
     docs = text_splitter.split_documents(documents)
     embeddings = OpenAIEmbeddings(openai_api_key = api_key)
     db = FAISS.from_documents(docs, embeddings)
-    book_name = uuid_name
     db.save_local(f"{book_name}_index")
     st.write('Book successfully indexed')
     st.write('Uploading to S3...')
@@ -59,10 +52,12 @@ if st.button("Upload"):
 
     
     st.success('Uploaded to S3')
+    with open("library.csv", "a") as f:
+        datai = csv.writer(f)
+        datai.writerow([book_name])
     bucket.upload_file("library.csv", "library.csv")
     
-    
-    
+
     
     st.success('Uploaded to S3')
     
