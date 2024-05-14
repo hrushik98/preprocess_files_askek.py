@@ -35,25 +35,30 @@ if st.button("Upload"):
         st.success(f"{book_name}.pdf has been saved in the current directory.")
     else:
         st.warning("Please upload a PDF file before clicking the 'Upload' button.")
-
-    loader = PyPDFLoader(f"{book_name}.pdf")
-    documents = loader.load()
-    text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
-    docs = text_splitter.split_documents(documents)
-    embeddings = OpenAIEmbeddings(openai_api_key = api_key)
-    db = FAISS.from_documents(docs, embeddings)
-    db.save_local(f"{book_name}_index")
+    with st.spinner('Indexing...'):
+        loader = PyPDFLoader(f"{book_name}.pdf")
+        documents = loader.load()
+        text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
+        docs = text_splitter.split_documents(documents)
+        embeddings = OpenAIEmbeddings(openai_api_key = api_key)
+        db = FAISS.from_documents(docs, embeddings)
+        db.save_local(f"{book_name}_index")
     st.write('Book successfully indexed')
-    st.write('Uploading to S3...')
-    
-    for file in os.listdir(f"{book_name}_index"):
-        bucket.upload_file(f"{book_name}_index/{file}", f"{book_name}_index/{file}")
 
-    
+    st.write('Uploading to S3...')
+    with st.spinner('Uploading...'):
+        for file in os.listdir(f"{book_name}_index"):
+            bucket.upload_file(f"{book_name}_index/{file}", f"{book_name}_index/{file}")
+
     st.success('Uploaded to S3')
     with open("library.txt", "a") as f:
         f.write(f"\n{book_name}")
     bucket.upload_file("library.txt", "library.txt")
+    
+
+    
+    st.success('Uploaded to S3')
+    
     
 
     
