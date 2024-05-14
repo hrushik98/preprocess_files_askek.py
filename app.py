@@ -43,10 +43,9 @@ if st.button("Upload"):
         embeddings = OpenAIEmbeddings(openai_api_key = api_key)
         db = FAISS.from_documents(docs, embeddings)
         db.save_local(f"{book_name}_index")
-    st.success('Book successfully indexed')
+   
 
-    st.info('Uploading to S3...')
-    with st.spinner('Uploading...'):
+    with st.spinner('Uploading to s3...'):
         for file in os.listdir(f"{book_name}_index"):
             bucket.upload_file(f"{book_name}_index/{file}", f"{book_name}_index/{file}")
 
