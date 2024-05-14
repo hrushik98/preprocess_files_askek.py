@@ -32,7 +32,6 @@ if st.button("Upload"):
         file_content = file.read()
         with open(f"{book_name}.pdf", "wb") as f:
             f.write(file_content)
-        st.success(f"{book_name}.pdf has been saved in the current directory.")
     else:
         st.warning("Please upload a PDF file before clicking the 'Upload' button.")
     with st.spinner('Indexing...'):
