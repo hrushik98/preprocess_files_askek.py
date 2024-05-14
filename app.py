@@ -52,9 +52,11 @@ if st.button("Upload"):
 
     
     st.success('Uploaded to S3')
+
     with open("library.csv", "a", newline='') as f:
         datai = csv.writer(f)
         datai.writerow([book_name])
+        
     bucket.upload_file("library.csv", "library.csv")
     
 
