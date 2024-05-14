@@ -7,6 +7,7 @@ import os
 import boto3
 import uuid
 import csv
+
 session = boto3.Session(
     aws_access_key_id=st.secrets['aws_access_key_id'],
     aws_secret_access_key=st.secrets['aws_secret_access_key']
@@ -18,7 +19,7 @@ bucket_name = "askek"
 bucket = s3.Bucket(bucket_name)
 
 
-st.title("Upload embeddings to S3")
+st.title("Upload embeddings to S3.")
 
 api_key = st.secrets['API_KEY']
 
