@@ -26,7 +26,7 @@ file = st.file_uploader("Upload your pdf here", type=["pdf"])
 book_name = st.text_input("Enter the name of the book")
 
 if st.button("Upload"):
-    bucket.download_file('library.csv', 'library.csv')
+    bucket.download_file('library.txt', 'library.txt')
     book_name = book_name.replace(" ", "_")
 
     if file is not None:
@@ -51,9 +51,7 @@ if st.button("Upload"):
         bucket.upload_file(f"{book_name}_index/{file}", f"{book_name}_index/{file}")
 
     st.success('Uploaded to S3')
-
-    with open("library.csv", "a", newline='') as f:
-        datai = csv.writer(f)
-        datai.writerow([book_name])
-    bucket.upload_file("library.csv", "library.csv")
+    with open("library.txt", "a") as f:
+        f.write(f"\n{book_name}")
+    bucket.upload_file("library.txt", "library.txt")
     st.success('Uploaded to S3')
