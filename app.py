@@ -50,7 +50,7 @@ if st.button("Upload"):
         for file in os.listdir(f"{book_name}_index"):
             bucket.upload_file(f"{book_name}_index/{file}", f"{book_name}_index/{file}")
 
-    st.success('Uploaded to S3')
+
     with open("library.txt", "a") as f:
         f.write(f"\n{book_name}")
     bucket.upload_file("library.txt", "library.txt")
