@@ -18,7 +18,6 @@ s3 = session.resource('s3')
 bucket_name = "askek"
 bucket = s3.Bucket(bucket_name)
 
-
 st.title("Upload embeddings to S3.")
 
 api_key = st.secrets['API_KEY']
@@ -42,21 +41,19 @@ if st.button("Upload"):
     documents = loader.load()
     text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
     docs = text_splitter.split_documents(documents)
-    embeddings = OpenAIEmbeddings(openai_api_key = api_key)
+    embeddings = OpenAIEmbeddings(openai_api_key=api_key)
     db = FAISS.from_documents(docs, embeddings)
     db.save_local(f"{book_name}_index")
     st.write('Book successfully indexed')
-    st.write('Uploading index to S3...')
+    st.write('Uploading to S3...')
     
     for file in os.listdir(f"{book_name}_index"):
         bucket.upload_file(f"{book_name}_index/{file}", f"{book_name}_index/{file}")
-    
-    st.success('Index uploaded to S3')
+
+    st.success('Uploaded to S3')
 
     with open("library.csv", "a", newline='') as f:
         datai = csv.writer(f)
-        datai.writerow([book_name, "book"])
-        
+        datai.writerow([book_name])
     bucket.upload_file("library.csv", "library.csv")
-    
-    st.success('Library updated and uploaded to S3')
+    st.success('Uploaded to S3')
