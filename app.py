@@ -46,23 +46,17 @@ if st.button("Upload"):
     db = FAISS.from_documents(docs, embeddings)
     db.save_local(f"{book_name}_index")
     st.write('Book successfully indexed')
-    st.write('Uploading to S3...')
+    st.write('Uploading index to S3...')
     
     for file in os.listdir(f"{book_name}_index"):
         bucket.upload_file(f"{book_name}_index/{file}", f"{book_name}_index/{file}")
-
     
-    st.success('Uploaded to S3')
+    st.success('Index uploaded to S3')
 
     with open("library.csv", "a", newline='') as f:
         datai = csv.writer(f)
-        datai.writerow([book_name])
+        datai.writerow([book_name, "book"])
         
     bucket.upload_file("library.csv", "library.csv")
     
-
-    
-    st.success('Uploaded to S3')
-    
-    
-    
+    st.success('Library updated and uploaded to S3')
