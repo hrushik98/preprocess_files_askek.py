@@ -32,6 +32,8 @@ if st.button("Upload"):
         file_content = file.read()
         with open(f"{book_name}.pdf", "wb") as f:
             f.write(file_content)
+        st.write("book renamed to: ")
+        st.write(book_name)
     else:
         st.warning("Please upload a PDF file before clicking the 'Upload' button.")
     with st.spinner('Indexing...'):
